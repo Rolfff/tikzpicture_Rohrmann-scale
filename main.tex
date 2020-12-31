@@ -1,0 +1,69 @@
+\documentclass[border=0pt]{standalone}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{xcolor}
+\usepackage{pgfplotstable}
+
+\begin{document}
+
+\centering
+\tikzstyle{every node}=[draw=none]
+
+
+\pgfplotstableread[col sep=semicolon,header=true]{
+B; bFehler; bLabel; A; aFehler; aLabel; Frage
+2.79259259259259;1.27879929438815; {(mean: 2.79; SD: 1.28)};2.11111111111111;1.01273936708367; {(mean: 2.11; SD: 1.01)};Question 1 This question is very long and longer and longer and longer and longer than this line is.
+3.75555555555556;1.12089707663561; {(mean: 3.76; SD: 1.12)};2.74074074074074;1.19590945735847; {(mean: 2.74; SD: 1.2)};Question 2
+2.37037037037037;1.14851570258674; {(mean: 2.37; SD: 1.15)};2.81481481481481;1.2720981165907; {(mean: 2.81; SD: 1.27)};Question 3
+}\data
+
+
+\begin{tikzpicture}
+
+\begin{axis}[ nodes near coords,
+grid=major,
+%xlabel=Rohrmann-Skala,
+%    width=0.5*\textwidth,
+    height= 6cm, %<-Abstand zwischen den Balken
+		xtick={1,2,...,5},
+		xtick pos=top,
+		xmin = 0.5,
+    xmax = 5.5,
+    ytick = data,
+    yticklabels from table = {\data}{Frage},
+		y dir=reverse,
+    ytick align=center,
+    ytick pos=right,
+		yticklabel style={text width=8cm}, %<- Text umbruch bei y lable
+%    enlarge x limits = {value=0.15,upper},
+    axis line style={-},
+		legend style={at={(1.8,1.4)} },
+		xticklabels={$(1)$ strongly disagree,$(2)$ fairly disagree,$(3)$ undecided,$(4)$ fairly agree,$(5)$ strongly agree},
+		xticklabel style={rotate=45,xshift=0.8cm,yshift=-0.8cm}
+]
+
+\addplot+[only marks, every mark/.append style={yshift=1mm},
+        point meta=explicit symbolic, 
+				nodes near coords style={font=\tiny,anchor=south,yshift=-0.5mm},
+error bars/.cd, error bar style={yshift=1mm},
+x dir=both,
+x explicit,
+] 
+table[y expr =\coordindex, x expr={\thisrow{A}},x error expr={\thisrow{aFehler}},meta=aLabel] \data;
+\addlegendentry{sensor A}
+
+\addplot+[only marks, every mark/.append style={yshift=-1mm},
+        point meta=explicit symbolic, 
+				nodes near coords style={font=\tiny,anchor=north,yshift=0.2mm},
+error bars/.cd, error bar style={yshift=-1mm},
+x dir=both,
+x explicit,
+] 
+table[y expr =\coordindex, x expr={\thisrow{B}},x error expr={\thisrow{bFehler}},meta=bLabel] \data;
+\addlegendentry{sensor B}
+
+\end{axis}
+\end{tikzpicture}
+
+
+\end{document}
