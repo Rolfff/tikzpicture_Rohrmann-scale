@@ -23,7 +23,7 @@ B; bFehler; bLabel; A; aFehler; aLabel; Frage
 \begin{axis}[ nodes near coords,
 grid=major,
 %xlabel=Rohrmann-Skala,
-%    width=0.5*\textwidth,
+    width=8cm,
     height= 6cm, %<-Abstand zwischen den Balken
 		xtick={1,2,...,5},
 		xtick pos=top,
@@ -39,7 +39,7 @@ grid=major,
     axis line style={-},
 		legend style={at={(1.8,1.4)} },
 		xticklabels={$(1)$ strongly disagree,$(2)$ fairly disagree,$(3)$ undecided,$(4)$ fairly agree,$(5)$ strongly agree},
-		xticklabel style={rotate=45,xshift=0.8cm,yshift=-0.8cm}
+		xticklabel style={rotate=45,anchor=west,yshift=1mm,xshift=-1mm}
 ]
 
 \addplot+[only marks, every mark/.append style={yshift=1mm},
